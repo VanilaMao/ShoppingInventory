@@ -1,0 +1,46 @@
+---
+- name: Install aptitude using apt
+  apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+- name: Install required packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg-agent
+    - software-properties-common
+
+- name: Add docker's official GPG key to apt
+  become: true
+  apt_key:
+    url: "{{ docker_key_url }}"
+    state: present
+
+- name: Add Docker's apt repository
+  become: true
+  apt_repository:
+    repo: "deb {{docker_key_url}} bionic stable"
+    state: present
+
+- name: Install docker CE
+  become: true
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - "docker-ce"
+    - "docker-ce-cli"
+    - "containerd.io"
+
+- name: Add user to docker group
+  become: true
+  user:
+    name: "{{ item }}"
+    groups: "docker"
+  with_items: "{{ docker_users }}"
