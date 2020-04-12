@@ -23,9 +23,9 @@
   pip:
     name: docker
 
-- name: Add user to docker group
-  become: true
-  user:
-    name: "{{ item }}"
-    groups: "docker"
-  with_items: "{{ docker_users }}"
+# - name: Add user to docker group
+#   become: true
+#   user:
+#     name: "{{ item }}"
+#     groups: "docker"
+#   with_items: "{{ docker_users }}"
