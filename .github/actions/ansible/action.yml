@@ -1,0 +1,5 @@
+name: 'Ansible'
+description: 'Becuase github action does not support Ansible directly, have to use action to create a dock container installing ansible to do it'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

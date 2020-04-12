@@ -1,0 +1,15 @@
+name: Master build and Deployment
+
+on:
+  push:
+    brancher:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/ansible
+        env:
+          VAULT_PASS: ${{secrets.VAULT_PASS}}
