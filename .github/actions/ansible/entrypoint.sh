@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "$VAULT_PASSWORD" > ~/.vault_password.txt
+echo "$VAULT_PASS" > ~/.vault_password.txt
 mkdir ~/secret
-ansible-vault view --vault-password-file ~/.vault_password.txt ansible/ssh.txt > ~/secret/id_rsa
+ansible-vault view --vault-password-file ~/.vault_password.txt .ansible/ssh.txt > ~/secret/id_rsa
 chmod 0600 ~/secret/id_rsa
-ansible-playbook --vault-password-file ~/.vault_password.txt -i hosts ansible/deploy.yml
+ansible-playbook --vault-password-file ~/.vault_password.txt -i hosts .ansible/deploy.yml
