@@ -15,4 +15,4 @@
   command: docker pull fuvkdocker888/shopping
 
 - name: restart app
-  command: docker run -it -p 3000:3000 --name=app fuvkdocker888/shopping
+  command: docker run -it -d -p 3000:3000 --name=app fuvkdocker888/shopping
