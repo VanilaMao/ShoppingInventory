@@ -1,6 +1,5 @@
 docker_compose: false
 docker_compose_version: 1.22.0
 docker_key_url: https://download.docker.com/linux/ubuntu/gpg
-docker_version: 17.06.2~ce-0~ubuntu
 docker_users:
   - "{{ ansible_user }}"

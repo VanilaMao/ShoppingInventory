@@ -1,6 +1,6 @@
-- include: sv.yml
-  tags:
-    - sv
+# - include: sv.yml
+#   tags:
+#     - sv
 - include: deploy.yml
   tags:
     - deploy-app
