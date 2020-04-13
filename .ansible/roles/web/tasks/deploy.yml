@@ -11,6 +11,10 @@
   command: docker rm app
   when: result.exists
 
+- name: remove image:
+  command: docker rm fuvkdocker888/shopping -f
+  when: result.exists
+
 - name: pull image
   command: docker pull fuvkdocker888/shopping
 
