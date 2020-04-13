@@ -1,0 +1,5 @@
+#!/bin/sh
+docker kill app
+docker rm app
+docker pull fuvkdocker888/shopping:latest
+docker run --name=app --rm --publish=3000:3000 -listen=0.0.0.0:3000 fuvkdocker888/shopping:latest

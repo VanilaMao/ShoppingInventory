@@ -6,8 +6,23 @@ on:
       - master
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: docker login
+        run: "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - name: docker build
+        run: "docker build -t fuvkdocker888/shopping:latest ."
+      - name: push image to docker hub
+        run: "docker push fuvkdocker888/shopping:latest"
+
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/checkout@v1
       - uses: ./.github/actions/ansible

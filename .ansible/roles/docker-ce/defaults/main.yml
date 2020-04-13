@@ -1,0 +1,5 @@
+docker_compose: false
+docker_compose_version: 1.22.0
+docker_key_url: https://download.docker.com/linux/ubuntu/gpg
+docker_users:
+  - "{{ ansible_user }}"
