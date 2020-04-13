@@ -1,8 +1,11 @@
-name: Master build and Deployment
+name: Master build or pull request
 
 on:
   push:
-    brancher:
+    branches:
+      - master
+  pull_request:
+    branches:
       - master
 
 jobs:
