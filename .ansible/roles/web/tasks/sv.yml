@@ -1,0 +1,9 @@
+---
+- name: create sv run directory
+  file: path=~/sv/app state=directory
+
+- name: create app sv run file
+  template:
+    src=../templates/app.j2
+    dest=~/sv/app/run
+    mode="0700"

@@ -1,0 +1,4 @@
+- name: restart app
+  command: sv restart ~/sv/app/
+  tags:
+    - deploy-app
