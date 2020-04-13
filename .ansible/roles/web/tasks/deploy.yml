@@ -12,7 +12,7 @@
   when: result.exists
 
 - name: remove image:
-  command: docker rm fuvkdocker888/shopping -f
+  command: docker image rm fuvkdocker888/shopping -f
   when: result.exists
 
 - name: pull image
