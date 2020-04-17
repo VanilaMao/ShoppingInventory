@@ -69,21 +69,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.authenticationProvider(authProvider);
-
-//        Authentication authentication = (Authentication) principal;
-//        User = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-//        auth.inMemoryAuthentication().withUser("doctor").password(getEncoder() .encode("doctor")).roles("ADMIN");
-//        auth.inMemoryAuthentication().withUser("nurse").password(getEncoder() .encode("nurse")).roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.anonymous().disable();
-//        http.csrf().disable();
         http.authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
+        http.headers().frameOptions().disable();
     }
-
-
 }
