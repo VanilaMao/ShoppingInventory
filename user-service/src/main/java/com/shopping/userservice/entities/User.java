@@ -18,6 +18,6 @@ import javax.persistence.Table;
 @Table(name="User")
 public class User extends BaseUser {
 
-    @Column(name="ZipCode")
+    @Column(name="ZIP_CODE")
     private  String zipcode;
 }

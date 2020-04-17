@@ -1,19 +1,24 @@
 databaseChangeLog:
 - changeSet:
     id: create-usertable
-    author: mao2020-4-17:2:13
+    author: mao2020-4-17:9:49
     changes:
       - createTable:
           tableName: User
           columns:
             - column:
-                name: ID
+                name: USER_ID
                 type: UUID
                 constraints:
                   - primaryKey: true
                   - nullable: false
             - column:
-                name: ZIP_CODE
-                type: varchar(10)
+                name: USER_NAME
+                type: varchar(255)
                 constraints:
-                  - nullable: true
+                  - nullable: false
+            - column:
+                name: PASSWORD
+                type: varchar(255)
+                constraints:
+                  - nullable: false
