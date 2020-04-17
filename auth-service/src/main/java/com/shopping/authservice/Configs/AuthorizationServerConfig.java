@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${security.jwt.signingkey}")
+    @Value("${security.jwt.signingKey}")
     private String signingKey;
 
 
@@ -44,7 +44,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("zmhshopping"));
     }
 
-    // need enhance token and Jwttoken
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception{
         System.out.print("endpoint");
