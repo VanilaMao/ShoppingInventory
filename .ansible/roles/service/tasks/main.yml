@@ -1,6 +1,6 @@
 - name: Get infos on container
   docker_container_info:
-    name: "{{ service_name }}""
+    name: "{{ service_name }}"
   register: result
 
 - name: kill container and restart
