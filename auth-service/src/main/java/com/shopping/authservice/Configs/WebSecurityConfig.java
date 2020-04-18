@@ -47,18 +47,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //jwt https://www.baeldung.com/spring-security-oauth-jwt
 @Configuration
 @EnableWebSecurity
-@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomAuthenticationProvider authProvider;
-
-
-
-    @Bean
-    public PasswordEncoder getEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     @Bean
