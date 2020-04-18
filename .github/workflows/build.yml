@@ -28,6 +28,11 @@ jobs:
       - name: push auth service image to docker hub
         run: "docker push fuvkdocker888/auth-service:latest"
 
+      - name: docker build user service
+        run: "docker build -f user-service/Dockerfile -t fuvkdocker888/user-service:latest ."
+      - name: push user service image to docker hub
+        run: "docker push fuvkdocker888/user-service:latest"
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
