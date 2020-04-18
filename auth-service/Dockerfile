@@ -15,6 +15,6 @@ RUN chmod +x mvnw
 
 RUN ./mvnw clean package
 
-COPY ${JAR_FILE} app.jar
+COPY ${AUTH_JAR_FILE} app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]
