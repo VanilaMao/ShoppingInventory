@@ -2,7 +2,9 @@ package com.shopping.userservice.configs;
 
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.errors.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Configuration
 public class KafkaTopicConfig {
@@ -20,6 +23,9 @@ public class KafkaTopicConfig {
 
     @Value(value="${kafka.userTopic}")
     private String userTopic;
+
+    @Value(value="${kafka.connection.timeout}")
+    private int timeout;
 
     @Bean
     public KafkaAdmin kafkaAdmin(){
@@ -32,10 +38,18 @@ public class KafkaTopicConfig {
     @Bean
     public NewTopic user(KafkaAdmin admin) throws  Exception{
         AdminClient client = AdminClient.create(admin.getConfig());
-        if(client.listTopics().names().get().stream().anyMatch(name->userTopic.equals(name))){
+        try{
+            if(client.listTopics(new ListTopicsOptions().timeoutMs(timeout)).names().get().stream().anyMatch(name->userTopic.equals(name))){
+                return null;
+            }else{
+                return TopicBuilder.name(userTopic).replicas(1).partitions(1).build();
+            }
+        }catch(ExecutionException| TimeoutException ex){
+
             return null;
-        }else{
-            return TopicBuilder.name(userTopic).replicas(1).partitions(1).build();
+        }
+        finally {
+            client.close();
         }
     }
 }
