@@ -11,7 +11,9 @@ COPY auth-service/ .
 
 RUN mkdir -p target
 
-RUN ./mvnw install
+RUN chmod +x mvnw
+
+RUN ./mvnw clean package
 
 COPY ${JAR_FILE} app.jar
 
