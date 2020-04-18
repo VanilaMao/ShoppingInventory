@@ -1,22 +1,22 @@
 - name: Get infos on container
   docker_container_info:
-    name: {{service_name}}
+    name: "{{ service_name }}""
   register: result
 
 - name: kill container and restart
-  command: "docker kill {{service_name}}"
+  command: "docker kill {{ service_name }}"
   when: result.exists
 
 - name: remove container
-  command: "docker rm {{service_name}}"
+  command: "docker rm {{ service_name }}"
   when: result.exists
 
 - name: remove image
-  command: "docker image rm fuvkdocker888/{{service_name}} -f"
+  command: "docker image rm fuvkdocker888/{{ service_name }} -f"
   when: result.exists
 
 - name: pull image
-  command: "docker pull fuvkdocker888/{{service_name}}"
+  command: "docker pull fuvkdocker888/{{ service_name }}"
 
 - name: restart app
-  command: "docker run -it -d -p {{service_port}}:{{service_port}} --name={{service_name}} fuvkdocker888/{{service_name}}"
+  command: "docker run -it -d -p {{ service_port }}:{{ service_port }} --name={{ service_name }} fuvkdocker888/{{ service_name }}"

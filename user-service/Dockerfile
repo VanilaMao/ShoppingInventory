@@ -5,9 +5,9 @@ FROM openjdk:8-jdk-alpine
 # Refer to Maven build -> finalName
 ARG AUTH_JAR_FILE=target/*.jar
 
-WORKDIR /auth
+WORKDIR /user
 
-COPY auth-service/ .
+COPY user-service/ .
 
 RUN mkdir -p target
 
