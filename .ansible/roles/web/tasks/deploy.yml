@@ -5,6 +5,8 @@
 
 - name: kill container and restart
   command: docker kill shopping-app
+  register: kill_result
+  ignore_errors: True
   when: result.exists
 
 - name: remove container
