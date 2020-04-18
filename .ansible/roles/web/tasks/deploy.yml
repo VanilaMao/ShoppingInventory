@@ -1,22 +1,22 @@
 - name: Get infos on container
   docker_container_info:
-    name: app
+    name: shopping-app
   register: result
 
 - name: kill container and restart
-  command: docker kill app
+  command: docker kill shopping-app
   when: result.exists
 
 - name: remove container
-  command: docker rm app
+  command: docker rm shopping-app
   when: result.exists
 
 - name: remove image
-  command: docker image rm fuvkdocker888/shopping -f
+  command: docker image rm fuvkdocker888/shopping-app -f
   when: result.exists
 
 - name: pull image
-  command: docker pull fuvkdocker888/shopping
+  command: docker pull fuvkdocker888/shopping-app
 
 - name: restart app
-  command: docker run -it -d -p 3000:3000 --name=app fuvkdocker888/shopping
+  command: docker run -it -d -p 3000:3000 --name=shopping-app fuvkdocker888/shopping-app

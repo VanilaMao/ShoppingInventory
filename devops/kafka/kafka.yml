@@ -1,0 +1,29 @@
+---
+- hosts: digitalocean
+  remote_user: root
+
+  vars:
+    docker_compose_version: 1.25.5
+    ansible_system: Linux
+    ansible_userspace_architecture: x86_64
+
+  tasks:
+  - name: create a direct for dockerfile
+    file: path=~/kafka state=directory
+  
+  - name: copy dockercompose file to kafka folder
+    copy:
+      src: docker-compose.yml
+      dest: ~/kafka/docker-compose.yml
+      owner: root
+      mode: "0700"
+
+  - name: Ensure docker-compose is installed and available
+    # get_url: 
+    #   url : https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+    #   dest: /usr/local/bin/docker-compose
+    #   mode: 'u=rwx,g=rx,o=rx'
+    shell: curl -L https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+  - name: run kafka
+    command: docker-compose -f ~/kafka/docker-compose.yml up -d --force-recreate 

@@ -5,3 +5,11 @@
   roles:
     - docker-ce
     - web
+    - role: service
+      var: 
+        service_name: auth-service
+        service_port: 8081
+    - role: service
+      var: 
+        service_name: user-service
+        service_port: 8083
