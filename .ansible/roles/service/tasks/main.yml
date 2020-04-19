@@ -21,4 +21,4 @@
   command: "docker pull fuvkdocker888/{{ service_name }}"
 
 - name: restart app
-  command: "docker run -it -d -p {{ service_port }}:{{ service_port }} --name={{ service_name }} fuvkdocker888/{{ service_name }}"
+  command: "docker run -it -d -p {{ service_port }}:{{ service_port }} --network={{kafka_network}} --name={{ service_name }} fuvkdocker888/{{ service_name }}"

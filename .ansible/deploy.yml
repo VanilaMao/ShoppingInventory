@@ -2,14 +2,16 @@
 - hosts: digitalocean
   remote_user: root
   become: true
+  vars:
+    kafka_network: kafka-docker_kafkatest
   roles:
-    # - docker-ce
-    # - web
+    - docker-ce
+    - web
     - role: service
       vars: 
         service_name: auth-service
         service_port: 8081
-    # - role: service
-    #   vars: 
-    #     service_name: user-service
-    #     service_port: 8083
+    - role: service
+      vars: 
+        service_name: user-service
+        service_port: 8083
