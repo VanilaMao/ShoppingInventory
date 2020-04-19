@@ -26,4 +26,4 @@
     shell: curl -L https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
   - name: run kafka
-    command: docker-compose -f ~/kafka/docker-compose.yml up -d --force-recreate 
+    command: docker-compose -f ~/kafka/docker-compose.yml up --force-recreate 

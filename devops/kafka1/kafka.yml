@@ -1,0 +1,30 @@
+---
+- hosts: digitalocean
+  remote_user: root
+
+  vars:
+    docker_compose_version: 1.25.5
+    ansible_system: Linux
+    ansible_userspace_architecture: x86_64
+
+  tasks:
+  - name: create a direct for dockerfile
+    file: path=~/kafka1 state=directory
+
+  - name: Clean kafka-docker path
+    file:
+      path: ~/kafka1/kafka-docker
+      state: absent
+  
+  - name: get docker repo
+    command: git clone https://github.com/wurstmeister/kafka-docker.git ~/kafka1/kafka-docker
+
+  - name: copy dockercompose file to kafka folder
+    copy:
+      src: docker-compose.yml
+      dest: ~/kafka1/kafka-docker/docker-compose.yml
+      owner: root
+      mode: "0700"
+
+  - name: run kafka
+    command:  chdir=~/kafka1/kafka-docker docker-compose -f docker-compose.yml up -d --force-recreate 
