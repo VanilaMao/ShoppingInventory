@@ -1,6 +1,7 @@
 # https://www.confluent.io/blog/kafka-listeners-explained/
 # https://github.com/wurstmeister/kafka-docker
 # https://github.com/edenhill/kafkacat#examples
+# https://github.com/confluentinc/confluent-kafka-python/issues/452
 
 version: '2'
 
