@@ -3,12 +3,12 @@
   remote_user: root
   become: true
   roles:
-    - docker-ce
-    - web
-    - role: service
-      vars: 
-        service_name: auth-service
-        service_port: 8081
+    # - docker-ce
+    # - web
+    # - role: service
+    #   vars: 
+    #     service_name: auth-service
+    #     service_port: 8081
     - role: service
       vars: 
         service_name: user-service

@@ -18,15 +18,15 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      - name: docker build app
-        run: "docker build -f app/Dockerfile -t fuvkdocker888/shopping-app:latest ."
-      - name: push app image to docker hub
-        run: "docker push fuvkdocker888/shopping-app:latest"
+      # - name: docker build app
+      #   run: "docker build -f app/Dockerfile -t fuvkdocker888/shopping-app:latest ."
+      # - name: push app image to docker hub
+      #   run: "docker push fuvkdocker888/shopping-app:latest"
 
-      - name: docker build auth service
-        run: "docker build -f auth-service/Dockerfile -t fuvkdocker888/auth-service:latest ."
-      - name: push auth service image to docker hub
-        run: "docker push fuvkdocker888/auth-service:latest"
+      # - name: docker build auth service
+      #   run: "docker build -f auth-service/Dockerfile -t fuvkdocker888/auth-service:latest ."
+      # - name: push auth service image to docker hub
+      #   run: "docker push fuvkdocker888/auth-service:latest"
 
       - name: docker build user service
         run: "docker build -f user-service/Dockerfile -t fuvkdocker888/user-service:latest ."

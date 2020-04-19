@@ -4,6 +4,8 @@ import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.KafkaException;
+import org.apache.kafka.common.config.ConfigException;
 import org.apache.kafka.common.errors.TimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,19 +39,16 @@ public class KafkaTopicConfig {
     @Autowired
     @Bean
     public NewTopic user(KafkaAdmin admin) throws  Exception{
-        AdminClient client = AdminClient.create(admin.getConfig());
         try{
+            AdminClient client = AdminClient.create(admin.getConfig());
             if(client.listTopics(new ListTopicsOptions().timeoutMs(timeout)).names().get().stream().anyMatch(name->userTopic.equals(name))){
                 return null;
             }else{
                 return TopicBuilder.name(userTopic).replicas(1).partitions(1).build();
             }
-        }catch(ExecutionException| TimeoutException ex){
+        }catch(ExecutionException| KafkaException ex){
 
             return null;
-        }
-        finally {
-            client.close();
         }
     }
 }
