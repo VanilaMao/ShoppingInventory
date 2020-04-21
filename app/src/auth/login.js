@@ -25,9 +25,7 @@ const RenderInput = ({
 }
     
 
-
-
-const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser})=>(
+const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser,form})=>(
     <form onSubmit={handleSubmit} noValidate >
         <div className="main">
             <Card className="card">
@@ -68,14 +66,19 @@ const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser})=>(
                 </CardActions>
                 {newUser?<div>
                     Go Back to
-                    <span onClick={()=>switchToNewUser(false)} className="switch"> Log In</span>
+                    <span onClick={()=>{
+                        form.reset()
+                        switchToNewUser(false)}} className="switch"> Log In</span>
                 </div>
                 :<div>
                     Need a new user? Please 
-                    <span onClick={()=>switchToNewUser(true)} className="switch"> Sign Up</span>
+                    <span onClick={()=>{
+                        form.reset()
+                        switchToNewUser(true)}} className="switch"> Sign Up</span>
                 </div>}
             </Card>
             <Notification />
+            {newUser?"true":"false"}
         </div>
 
     </form>
@@ -88,6 +91,10 @@ const Login = ()=>{
     const notify = useNotify()
     const login = useLogin()
     const [newUser, setNewUser] = useState(false)
+
+    const handleSubmit = (auth)=>{
+        login(auth,  '/')
+    }
 
     const validate = (user) => {
         console.log(user)
@@ -104,7 +111,7 @@ const Login = ()=>{
 
     return (
         <Form 
-            onSubmit = {()=>{}}
+            onSubmit = {handleSubmit}
             validate = {validate}
             render = {(props)=><RenderComponent 
                 {...props}                
