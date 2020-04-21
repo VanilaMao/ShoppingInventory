@@ -12,15 +12,20 @@ const RenderInput = ({
     meta: { touched, error } = { touched: false, error: undefined },
     input: { ...inputProps },
     ...props
-}) => (
-    <TextField
-        error={!!(touched && error)}
-        helperText={touched && error}
-        {...inputProps}
-        {...props}
-        fullWidth
-    />
-);
+}) => {
+    return (
+        <TextField
+            error={!!(touched && error)}
+            helperText={touched && error}
+            {...inputProps}
+            {...props}
+            fullWidth
+        />
+    );
+}
+    
+
+
 
 const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser})=>(
     <form onSubmit={handleSubmit} noValidate >
@@ -49,7 +54,7 @@ const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser})=>(
                     {newUser&&  <div>
                         <Field 
                             className="input"
-                            name="password"
+                            name="repeatPassword"
                             component={RenderInput}
                             label={translate('ra.auth.password')}
                             type="password"                           
@@ -83,10 +88,24 @@ const Login = ()=>{
     const notify = useNotify()
     const login = useLogin()
     const [newUser, setNewUser] = useState(false)
+
+    const validate = (user) => {
+        console.log(user)
+        const errors = {};
+        if (!user.username) {
+            errors.username = translate('ra.validation.required');
+        }
+        if (!user.password) {
+            errors.password = translate('ra.validation.required');
+        }
+        return errors;
+    };
+
+
     return (
         <Form 
             onSubmit = {()=>{}}
-            validate = {()=>{}}
+            validate = {validate}
             render = {(props)=><RenderComponent 
                 {...props}                
                 translate={translate}
