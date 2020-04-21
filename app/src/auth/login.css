@@ -1,0 +1,33 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: flex-start;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.card{
+    min-width: 300;
+    margin-top: 6em;
+}
+
+.form{
+    padding: 0 1em 1em 1em;
+}
+
+.input{
+    margin-top: 1em;
+}
+
+span.switch {
+    color:blue;
+    width: 100px;
+    height: 25px;
+}
+
+span.switch:hover{
+    cursor: pointer;
+}
