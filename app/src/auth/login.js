@@ -93,6 +93,9 @@ const Login = ()=>{
     const [newUser, setNewUser] = useState(false)
 
     const handleSubmit = (auth)=>{
+        if(newUser){
+            return
+        }
         login(auth,  '/')
     }
 
