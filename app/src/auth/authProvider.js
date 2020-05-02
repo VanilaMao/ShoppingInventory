@@ -1,13 +1,41 @@
+
+// https://stackoverflow.com/questions/45591594/fetch-does-not-send-headers
 export default {
     // called when the user attempts to log in
-    login: ({ username }) => {
+    login: async ({ username,password }) => {
         localStorage.setItem('username', username);
-        // accept all username/password combinations
-        return Promise.resolve();
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("username",username)
+        urlencoded.append("password",password)
+        urlencoded.append("grant_type","password")
+        const requestOptions = {
+            method: 'POST',
+            body: urlencoded,
+            headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded',
+                 'Authorization': 'Basic ' + new Buffer(process.env.REACT_APP_CLIENT_ID + ':' + process.env.REACT_APP_CLIENT_SECRET).toString('base64')
+                },
+            redirect:'follow'
+        };
+        console.log(requestOptions);
+        return fetch(`${process.env.REACT_APP_AUTH_URL}/oauth/token`,requestOptions)
+            .then(response => {
+                if (response.status < 200 || response.status >= 300) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(({ access_token,refresh_token }) => {
+                console.log(access_token)
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
+            });
     },
     // called when the user clicks on the logout button
     logout: () => {
         localStorage.removeItem('username');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
         return Promise.resolve();
     },
     // called when the API returns an error
@@ -20,10 +48,12 @@ export default {
     },
     // called when the user navigates to a new location, to check for authentication
     checkAuth: () => {
+        // if logged, or using a boolean variable
         return localStorage.getItem('username')
             ? Promise.resolve()
             : Promise.reject();
     },
     // called when the user navigates to a new location, to check for permissions / roles
     getPermissions: () => Promise.resolve(),
+
 };
