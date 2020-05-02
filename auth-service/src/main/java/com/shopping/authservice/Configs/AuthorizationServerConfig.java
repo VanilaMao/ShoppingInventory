@@ -1,5 +1,6 @@
 package com.shopping.authservice.Configs;
 
+import com.shopping.authservice.services.AuthUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -26,6 +27,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     @Autowired
+    private AuthUserDetailsService userDetailsService;
+
+    @Autowired
     private SecurityProperties securityProperties;
 
     @Autowired
@@ -49,7 +53,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         System.out.print("endpoint");
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(tokenStore())
-                .tokenEnhancer(accessTokenConverter());
+                .tokenEnhancer(accessTokenConverter())
+                .reuseRefreshTokens(true)
+        .userDetailsService(userDetailsService);
     }
 
     @Bean
@@ -70,6 +76,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer auth) throws Exception{
         auth.checkTokenAccess("isAuthenticated()");
+        auth.tokenKeyAccess("permitAll()");
     }
 
 }
