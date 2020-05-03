@@ -4,6 +4,7 @@ import {Notification} from 'react-admin'
 import User from '../domains/user'
 import { useTranslate, useLogin, useNotify } from 'ra-core';
 import React, { useState } from 'react'
+import userService from '../services/user-service'
 import './login.css'
 
 const {Form} = withTypes(User)
@@ -78,7 +79,6 @@ const RenderComponent = ({handleSubmit,translate, switchToNewUser, newUser,form}
                 </div>}
             </Card>
             <Notification />
-            {newUser?"true":"false"}
         </div>
 
     </form>
@@ -92,11 +92,21 @@ const Login = ()=>{
     const login = useLogin()
     const [newUser, setNewUser] = useState(false)
 
-    const handleSubmit = (auth)=>{
+    const handleSubmit = async (auth)=>{
         if(newUser){
-            return
+            const result = await userService.createNewUser(auth)
+            notify(
+                result?"create a new user sucessfully":"can not create a user, please contact administration",
+                result?'info':'warning'
+            );
+            return;
         }
-        login(auth,  '/')
+        try{
+            await login(auth,  '/');
+        }catch(e){
+            console.log("cannot log in")
+            notify("Login Failed, Username/Password is incorrect",'error')
+        }
     }
 
     const validate = (user) => {
@@ -107,6 +117,13 @@ const Login = ()=>{
         }
         if (!user.password) {
             errors.password = translate('ra.validation.required');
+        }
+        if(newUser){
+            if(!user.repeatPassword){
+                errors.repeatPassword = translate('ra.validation.required');
+            }else if(user.repeatPassword!= user.password ){
+                errors.repeatPassword = "password does not much"
+            }
         }
         return errors;
     };
