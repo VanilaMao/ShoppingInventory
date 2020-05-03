@@ -101,7 +101,12 @@ const Login = ()=>{
             );
             return;
         }
-        login(auth,  '/')
+        try{
+            await login(auth,  '/');
+        }catch(e){
+            console.log("cannot log in")
+            notify("Login Failed, Username/Password is incorrect",'error')
+        }
     }
 
     const validate = (user) => {
