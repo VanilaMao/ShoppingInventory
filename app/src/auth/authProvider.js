@@ -1,5 +1,10 @@
 
 // https://stackoverflow.com/questions/45591594/fetch-does-not-send-headers
+// https://stackoverflow.com/questions/42874351/spring-boot-enabling-cors-by-application-properties
+// https://stackoverflow.com/questions/37077487/enable-cors-for-health-endpoint-in-spring-boot-actuator
+// http://zetcode.com/springboot/cors/
+// https://spring.io/guides/gs/rest-service-cors/
+// jwt token decode to get user id, and make it as key, future changing
 export default {
     // called when the user attempts to log in
     login: async ({ username,password }) => {
@@ -21,6 +26,9 @@ export default {
         return fetch(`${process.env.REACT_APP_AUTH_URL}/oauth/token`,requestOptions)
             .then(response => {
                 if (response.status < 200 || response.status >= 300) {
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
                     throw new Error(response.statusText);
                 }
                 return response.json();
