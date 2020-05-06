@@ -28,7 +28,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(corsEnabled ? HttpMethod.OPTIONS.toString() : "invalid_path").permitAll()
-                .antMatchers("/api/create/**", "/h2-console/**").permitAll()
+                .antMatchers("/api/user/create/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated();
         http.headers().frameOptions().disable();
     }
