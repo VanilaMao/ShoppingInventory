@@ -38,6 +38,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
 
+    // should config it in the Nginx server
     @Bean
     @ConditionalOnProperty(
             value = "cors.enabled",
