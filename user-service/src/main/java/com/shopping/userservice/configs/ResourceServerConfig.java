@@ -23,6 +23,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Value(value = "${cors.enabled}")
     private boolean corsEnabled;
 
+
+    @Value(value = "${cors.url}")
+    private String corsUrl;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -43,7 +47,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin(corsUrl);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
