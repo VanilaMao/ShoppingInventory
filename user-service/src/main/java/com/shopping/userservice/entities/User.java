@@ -20,4 +20,31 @@ public class User extends BaseUser {
 
     @Column(name="ZIP_CODE")
     private  String zipcode;
+
+//    @Column(name="USER_NAME")
+//    private String userName;
+//
+//    @Column(name="EMAIL")
+//    private String email;
+//
+//    private String street;
+//
+//    private String state;
+//
+//    private String phone;
+//
+//    // leaving, vocation, sick
+//    private String status;
+//
+//    private String mitbbsId;
+//
+//    //readonly
+//    private String role;  //admin, doctor, nurse, carrier, accounting
+
+
+
+
+
+
+
 }

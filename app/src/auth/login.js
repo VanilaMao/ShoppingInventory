@@ -110,7 +110,6 @@ const Login = ()=>{
     }
 
     const validate = (user) => {
-        console.log(user)
         const errors = {};
         if (!user.username) {
             errors.username = translate('ra.validation.required');
@@ -121,7 +120,7 @@ const Login = ()=>{
         if(newUser){
             if(!user.repeatPassword){
                 errors.repeatPassword = translate('ra.validation.required');
-            }else if(user.repeatPassword!= user.password ){
+            }else if(user.repeatPassword!==user.password ){
                 errors.repeatPassword = "password does not much"
             }
         }
