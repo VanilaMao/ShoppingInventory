@@ -47,7 +47,7 @@ public class UserController {
                 .id(userId)
                 .name(userRequest.getUsername())
                 .status(ActiveStatus.Pending)
-                .Roles(new HashSet<>(Arrays.asList(Role.Guest)))
+                .roles(new HashSet<>(Arrays.asList(Role.Guest)))
                 .zipcode("48197").build();
         userRepository.save(user);
         return ResponseEntity.ok("success");

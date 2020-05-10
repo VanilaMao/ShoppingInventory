@@ -27,11 +27,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: user_id
+                  name: OWNER_ID
                   type: UUID
             tableName: group
         - addForeignKeyConstraint:
-            baseColumnNames: user_id
+            baseColumnNames: OWNER_ID
             baseTableName: group
             constraintName: FKma76mpfyem2vf5x7hlt8fgyxu
             deferrable: false

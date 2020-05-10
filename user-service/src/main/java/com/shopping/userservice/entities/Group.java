@@ -1,4 +1,4 @@
-
+// https://stackoverflow.com/questions/45635827/how-do-i-stop-spring-data-jpa-from-doing-a-select-before-a-save
 package com.shopping.userservice.entities;
 
 import com.shopping.userservice.enums.ActiveStatus;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,8 @@ import java.util.UUID;
 @Table(name="Group")
 public class Group implements Serializable {
     @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name="GROUP_ID")
     private UUID groupId;
 
@@ -39,7 +42,7 @@ public class Group implements Serializable {
 
     // unidirection
     @ManyToOne(optional = false)
-    @JoinColumn(name="USER_ID",referencedColumnName = "USER_ID",nullable = false)
+    @JoinColumn(name="OWNER_ID",referencedColumnName = "USER_ID",nullable = false)
     private User owner;
 
     @OneToMany(mappedBy = "group",cascade = CascadeType.ALL)
