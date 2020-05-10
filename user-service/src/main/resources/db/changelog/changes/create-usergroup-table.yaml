@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-10-2020-add-usergroup-table
+      author: zmh
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: user_groupPK
+                  name: group_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: user_groupPK
+                  name: user_id
+                  type: UUID
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+            tableName: user_group
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_group
+            constraintName: FK1c1dsw3q36679vaiqwvtv36a6
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: user_id
+            referencedTableName: user
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: group_id
+            baseTableName: user_group
+            constraintName: FKjonf4pqux3h1e687sd18dhcnj
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: group_id
+            referencedTableName: group
+            validate: true

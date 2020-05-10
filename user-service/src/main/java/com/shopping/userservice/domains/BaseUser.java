@@ -17,6 +17,6 @@ import java.util.UUID;
 @SuperBuilder
 public abstract class BaseUser {
     @Id
-    @Column(name="ID")
+    @Column(name="USER_ID")
     private UUID id;
 }
