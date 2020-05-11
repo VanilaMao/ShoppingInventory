@@ -18,8 +18,8 @@ import java.util.UUID;
 @Table(name="GROUP_TABLE")
 public class Group implements Serializable {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+//    @GeneratedValue(generator = "uuid2")
+//    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name="GROUP_ID")
     private UUID groupId;
 
@@ -43,6 +43,6 @@ public class Group implements Serializable {
     private User owner;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)//,cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<UserGroup> userGroups;
 }

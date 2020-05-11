@@ -12,16 +12,16 @@ import com.shopping.userservice.enums.Role;
 import com.shopping.userservice.respositories.GroupRepository;
 import com.shopping.userservice.respositories.UserGroupRepository;
 import com.shopping.userservice.respositories.UserRepository;
+
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,6 +38,61 @@ public class UserGroupRelationShipTest {
 
     @Autowired
     private UserGroupRepository userGroupRepository;
+
+    @AfterEach
+    void tearDown(){
+        groupRepository.deleteAll();
+        userRepository.deleteAll();
+        userGroupRepository.deleteAll();
+    }
+
+    @Test
+    void canUpdateUserGroup(){
+        User user= User.builder()
+                .name("user")
+                .zipcode("48197")
+                .status(ActiveStatus.Active)
+                .roles(new HashSet(Arrays.asList(Role.Nurse)))
+                .build();
+        User owner= User.builder()
+                .name("owner")
+                .zipcode("48197")
+                .status(ActiveStatus.Active)
+                .roles(new HashSet(Arrays.asList(Role.Doctor)))
+                .build();
+        User savedUser = userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(owner);
+        UUID groupId = UUID.randomUUID();
+        Group group = Group.builder()
+                .groupId(groupId)
+                .description("great group")
+                .limit(400L)
+                .owner(owner)
+                .name("Group")
+                .status(ActiveStatus.Active)
+                .build();
+        UserGroup userGroup = UserGroup.builder()
+                .id(UserGroupId.builder().groupId(groupId).userId(savedUser.getId()).build())
+                .group(group)
+                .user(savedUser)
+                .status(GroupUserStatus.Approved).build();
+        List<UserGroup> groupUserGroupList = new ArrayList<>();
+        groupUserGroupList.add(userGroup);
+        group.setUserGroups(groupUserGroupList);
+        groupRepository.save(group);
+
+        // verify usergroup table is saved when saving group
+        UserGroup verifiedUserGroup = userGroupRepository.findAll().get(0);
+        assertThat(verifiedUserGroup.getStatus()).isEqualTo(GroupUserStatus.Approved);
+
+        // update usergroup
+        Group savedGroup = groupRepository.findById(groupId).get();
+        savedGroup.getUserGroups().get(0).setStatus(GroupUserStatus.Declined);
+        groupRepository.save(savedGroup);
+        UserGroup verifiedUpdatedUserGroup = userGroupRepository.findAll().get(0);
+        assertThat(userGroupRepository.findAll().size()).isEqualTo(1);
+        assertThat(verifiedUpdatedUserGroup.getStatus()).isEqualTo(GroupUserStatus.Declined);
+    }
 
     @Test
     void canSaveAndReadUserGroups(){
@@ -75,6 +130,7 @@ public class UserGroupRelationShipTest {
 
         // group
         Group group = Group.builder()
+                .groupId(UUID.randomUUID())
                 .description("great group")
                 .limit(400L)
                 .owner(owner)
@@ -111,6 +167,7 @@ public class UserGroupRelationShipTest {
 
 
         Group group1 = Group.builder()
+                .groupId(UUID.randomUUID())
                 .description("silly group")
                 .limit(500L)
                 .owner(user1)
@@ -133,10 +190,15 @@ public class UserGroupRelationShipTest {
         groupRepository.saveAndFlush(savedGroup1);
         Group updatedGroup1 = groupRepository.findById(savedGroup1.getGroupId()).get();
 
-        // update
+        //update group
         UserGroup repoUserGroup = updatedGroup1.getUserGroups().get(0);
         repoUserGroup.setStatus(GroupUserStatus.Approved);
-        userGroupRepository.saveAndFlush(repoUserGroup);
+        groupRepository.saveAndFlush(updatedGroup1);
+
+        // update usergroup
+//        UserGroup repoUserGroup = updatedGroup1.getUserGroups().get(0);
+//        repoUserGroup.setStatus(GroupUserStatus.Approved);
+//        userGroupRepository.saveAndFlush(repoUserGroup);
 
         Group verifiedGroup1 = groupRepository.findById(savedGroup1.getGroupId()).get();
         assertThat(verifiedGroup1.getUserGroups().get(0).getStatus()).isEqualTo(GroupUserStatus.Approved);
