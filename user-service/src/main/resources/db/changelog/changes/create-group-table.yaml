@@ -16,7 +16,7 @@ databaseChangeLog:
                   name: dsc
                   type: VARCHAR(255)
               - column:
-                  name: limit
+                  name: CAPACITY
                   type: BIGINT
               - column:
                   name: name

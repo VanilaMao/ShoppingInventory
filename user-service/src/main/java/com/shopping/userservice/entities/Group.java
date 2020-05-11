@@ -29,7 +29,7 @@ public class Group implements Serializable {
     @Column(name="DSC")
     private String description;
 
-    @Column(name="LIMIT")
+    @Column(name="CAPACITY")
     @Builder.Default
     private Long limit = 500L;
 
@@ -43,6 +43,6 @@ public class Group implements Serializable {
     private User owner;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)//,cascade = CascadeType.MERGE)
     private List<UserGroup> userGroups;
 }

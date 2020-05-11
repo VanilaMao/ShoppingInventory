@@ -1,8 +1,11 @@
+// https://stackoverflow.com/questions/7428089/unsupportedoperationexception-merge-saving-many-to-many-relation-with-hibernate
+
 package com.shopping.userservice.repositories;
 
 import com.shopping.userservice.entities.Group;
 import com.shopping.userservice.entities.User;
 import com.shopping.userservice.entities.UserGroup;
+import com.shopping.userservice.entities.compositeKeys.UserGroupId;
 import com.shopping.userservice.enums.ActiveStatus;
 import com.shopping.userservice.enums.GroupUserStatus;
 import com.shopping.userservice.enums.Role;
@@ -15,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,9 +62,9 @@ public class UserGroupRelationShipTest {
                 .roles(new HashSet(Arrays.asList(Role.Nurse)))
                 .build();
 
-        userRepository.save(owner);
-        userRepository.save(user1);
-        userRepository.save(user2);
+        userRepository.saveAndFlush(owner);
+        userRepository.saveAndFlush(user1);
+        userRepository.saveAndFlush(user2);
 
         User savedOwner = userRepository.findById(owner.getId()).get();
         assertThat(savedOwner.getRoles().size()).isEqualTo(2);
@@ -76,6 +81,34 @@ public class UserGroupRelationShipTest {
                 .name("Group")
                 .status(ActiveStatus.Active)
                 .build();
+        Group savedGroup = groupRepository.saveAndFlush(group);
+
+
+
+        UserGroup userGroup1 = UserGroup.builder()
+                .id(UserGroupId.builder().groupId(savedGroup.getGroupId()).userId(user1.getId()).build())
+                .group(savedGroup)
+                .user(user1)
+                .status(GroupUserStatus.Approved).build();
+
+        UserGroup userGroup2 = UserGroup.builder()
+                .id(UserGroupId.builder().groupId(savedGroup.getGroupId()).userId(user2.getId()).build())
+                .group(savedGroup)
+                .user(user2)
+                .status(GroupUserStatus.Declined).build();
+        List<UserGroup> group1UserGroupList = new ArrayList<>();
+        group1UserGroupList.add(userGroup1);
+        group1UserGroupList.add(userGroup2);
+        savedGroup.setUserGroups(group1UserGroupList);
+        userGroupRepository.saveAndFlush(userGroup1);
+        userGroupRepository.saveAndFlush(userGroup2);
+
+
+        groupRepository.saveAndFlush(savedGroup);
+        Group verifiedGroup = groupRepository.findById(savedGroup.getGroupId()).get();
+        assertThat(verifiedGroup.getUserGroups().get(0).getStatus()).isEqualTo(GroupUserStatus.Approved);
+        assertThat(verifiedGroup.getUserGroups().get(1).getStatus()).isEqualTo(GroupUserStatus.Declined);
+
 
         Group group1 = Group.builder()
                 .description("silly group")
@@ -84,38 +117,29 @@ public class UserGroupRelationShipTest {
                 .name("Group1")
                 .status(ActiveStatus.Active)
                 .build();
-
-
-        UserGroup userGroup1 = UserGroup.builder()
-                //.id(UserGroupId.builder().groupId(group.getGroupId()).userId(user1.getId()).build())
-                .group(group)
-                .user(user1)
-                .status(GroupUserStatus.Approved).build();
-
-        UserGroup userGroup2 = UserGroup.builder()
-                //.id(UserGroupId.builder().groupId(group.getGroupId()).userId(user2.getId()).build())
-                .group(group)
-                .user(user2)
-                .status(GroupUserStatus.Declined).build();
+        Group savedGroup1 = groupRepository.saveAndFlush(group1);
 
         UserGroup userGroup3 = UserGroup.builder()
-                .group(group)
+                .id(UserGroupId.builder().groupId(savedGroup1.getGroupId()).userId(user2.getId()).build())
+                .group(savedGroup1)
                 .user(user2)
                 .status(GroupUserStatus.Declined).build();
-
-        group.setUserGroups(Arrays.asList(userGroup1,userGroup2));
-
-        group1.setUserGroups(Arrays.asList(userGroup3));
-        groupRepository.save(group);
-        groupRepository.save(group1);
+        List<UserGroup> group1UserGroupList1 = new ArrayList<>();
+        group1UserGroupList1.add(userGroup3);
+        savedGroup1.setUserGroups(group1UserGroupList1);
 
 
-        Group savedGroup = groupRepository.findById(group.getGroupId()).get();
-        Group savedGroup1 = groupRepository.findById(group1.getGroupId()).get();
+        userGroupRepository.saveAndFlush(userGroup3);
+        groupRepository.saveAndFlush(savedGroup1);
+        Group updatedGroup1 = groupRepository.findById(savedGroup1.getGroupId()).get();
 
-        assertThat(savedGroup1.getUserGroups().size()).isEqualTo(1);
+        // update
+        UserGroup repoUserGroup = updatedGroup1.getUserGroups().get(0);
+        repoUserGroup.setStatus(GroupUserStatus.Approved);
+        userGroupRepository.saveAndFlush(repoUserGroup);
 
-        assertThat(savedGroup.getUserGroups().get(0).getStatus()).isEqualTo(GroupUserStatus.Approved);
-        assertThat(savedGroup.getUserGroups().get(1).getStatus()).isEqualTo(GroupUserStatus.Declined);
+        Group verifiedGroup1 = groupRepository.findById(savedGroup1.getGroupId()).get();
+        assertThat(verifiedGroup1.getUserGroups().get(0).getStatus()).isEqualTo(GroupUserStatus.Approved);
+
     }
 }
