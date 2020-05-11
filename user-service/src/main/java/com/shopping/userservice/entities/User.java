@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -36,5 +35,6 @@ public class User extends BaseUser implements Serializable {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "USER_ID"))
     @Enumerated(EnumType.STRING)
     @Column(name="ROLE")
+
     private Set<Role> roles;
 }

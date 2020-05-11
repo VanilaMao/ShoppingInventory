@@ -39,5 +39,5 @@ databaseChangeLog:
             deferrable: false
             initiallyDeferred: false
             referencedColumnNames: group_id
-            referencedTableName: group
+            referencedTableName: GROUP_TABLE
             validate: true

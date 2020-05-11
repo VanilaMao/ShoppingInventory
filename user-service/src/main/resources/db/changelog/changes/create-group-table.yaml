@@ -29,10 +29,10 @@ databaseChangeLog:
                     nullable: false
                   name: OWNER_ID
                   type: UUID
-            tableName: group
+            tableName: GROUP_TABLE
         - addForeignKeyConstraint:
             baseColumnNames: OWNER_ID
-            baseTableName: group
+            baseTableName: GROUP_TABLE
             constraintName: FKma76mpfyem2vf5x7hlt8fgyxu
             deferrable: false
             initiallyDeferred: false

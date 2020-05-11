@@ -3,11 +3,11 @@ package com.shopping.userservice.repositories;
 import com.shopping.userservice.entities.Group;
 import com.shopping.userservice.entities.User;
 import com.shopping.userservice.entities.UserGroup;
-import com.shopping.userservice.entities.compositeKeys.UserGroupId;
 import com.shopping.userservice.enums.ActiveStatus;
 import com.shopping.userservice.enums.GroupUserStatus;
 import com.shopping.userservice.enums.Role;
 import com.shopping.userservice.respositories.GroupRepository;
+import com.shopping.userservice.respositories.UserGroupRepository;
 import com.shopping.userservice.respositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +30,9 @@ public class UserGroupRelationShipTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserGroupRepository userGroupRepository;
 
     @Test
     void canSaveAndReadUserGroups(){
@@ -70,28 +73,47 @@ public class UserGroupRelationShipTest {
                 .description("great group")
                 .limit(400L)
                 .owner(owner)
+                .name("Group")
+                .status(ActiveStatus.Active)
+                .build();
+
+        Group group1 = Group.builder()
+                .description("silly group")
+                .limit(500L)
+                .owner(user1)
                 .name("Group1")
                 .status(ActiveStatus.Active)
                 .build();
 
 
         UserGroup userGroup1 = UserGroup.builder()
-                .id(UserGroupId.builder().groupId(group.getGroupId()).userId(user1.getId()).build())
+                //.id(UserGroupId.builder().groupId(group.getGroupId()).userId(user1.getId()).build())
                 .group(group)
                 .user(user1)
                 .status(GroupUserStatus.Approved).build();
 
         UserGroup userGroup2 = UserGroup.builder()
-                .id(UserGroupId.builder().groupId(group.getGroupId()).userId(user2.getId()).build())
+                //.id(UserGroupId.builder().groupId(group.getGroupId()).userId(user2.getId()).build())
+                .group(group)
+                .user(user2)
+                .status(GroupUserStatus.Declined).build();
+
+        UserGroup userGroup3 = UserGroup.builder()
                 .group(group)
                 .user(user2)
                 .status(GroupUserStatus.Declined).build();
 
         group.setUserGroups(Arrays.asList(userGroup1,userGroup2));
 
+        group1.setUserGroups(Arrays.asList(userGroup3));
         groupRepository.save(group);
+        groupRepository.save(group1);
+
 
         Group savedGroup = groupRepository.findById(group.getGroupId()).get();
+        Group savedGroup1 = groupRepository.findById(group1.getGroupId()).get();
+
+        assertThat(savedGroup1.getUserGroups().size()).isEqualTo(1);
 
         assertThat(savedGroup.getUserGroups().get(0).getStatus()).isEqualTo(GroupUserStatus.Approved);
         assertThat(savedGroup.getUserGroups().get(1).getStatus()).isEqualTo(GroupUserStatus.Declined);

@@ -24,12 +24,12 @@ public class UserGroup implements Serializable {
     @EmbeddedId
     private UserGroupId id;
 
-    @ManyToOne
+    @ManyToOne(fetch =FetchType.LAZY)
     @MapsId("USER_ID")
     @JoinColumn(name="USER_ID")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch =FetchType.LAZY)
     @MapsId("GROUP_ID")
     @JoinColumn(name="GROUP_ID")
     private Group group;

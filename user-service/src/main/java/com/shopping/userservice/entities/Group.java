@@ -2,10 +2,7 @@
 package com.shopping.userservice.entities;
 
 import com.shopping.userservice.enums.ActiveStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name="Group")
+@Table(name="GROUP_TABLE")
 public class Group implements Serializable {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -41,10 +38,11 @@ public class Group implements Serializable {
     private ActiveStatus status;
 
     // unidirection
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     @JoinColumn(name="OWNER_ID",referencedColumnName = "USER_ID",nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
     private List<UserGroup> userGroups;
 }
