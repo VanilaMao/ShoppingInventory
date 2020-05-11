@@ -18,8 +18,6 @@ import java.util.UUID;
 @Table(name="GROUP_TABLE")
 public class Group implements Serializable {
     @Id
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name="GROUP_ID")
     private UUID groupId;
 
@@ -42,6 +40,9 @@ public class Group implements Serializable {
     @JoinColumn(name="OWNER_ID",referencedColumnName = "USER_ID",nullable = false)
     private User owner;
 
+
+    //CascadeType.ALL does not work on unit test because the in memory database share the memory
+    // between model and repository record, when try to return a record, it just returns the saved model directly
     @ToString.Exclude
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<UserGroup> userGroups;
