@@ -1,4 +1,8 @@
 // https://stackoverflow.com/questions/45635827/how-do-i-stop-spring-data-jpa-from-doing-a-select-before-a-save
+// https://stackoverflow.com/questions/16246675/hibernate-error-a-different-object-with-the-same-identifier-value-was-already-a
+// https://stackoverflow.com/questions/53140096/a-different-object-with-the-same-identifier-value-was-already-associated
+// https://stackoverflow.com/questions/1074081/hibernate-error-org-hibernate-nonuniqueobjectexception-a-different-object-with
+// https://stackoverflow.com/questions/25709976/spring-boot-spring-data-how-are-hibernate-sessions-managed
 package com.shopping.userservice.entities;
 
 import com.shopping.userservice.enums.ActiveStatus;
