@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @SuperBuilder
 @Entity
-@Table(name="User")
+@Table(name="USER_TABLE")
 public class User extends BaseUser implements Serializable {
 
     @Column(name="ZIP_CODE")

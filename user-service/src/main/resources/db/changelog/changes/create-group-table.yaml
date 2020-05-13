@@ -37,6 +37,6 @@ databaseChangeLog:
             deferrable: false
             initiallyDeferred: false
             referencedColumnNames: user_id
-            referencedTableName: user
+            referencedTableName: user_table
             validate: true
 

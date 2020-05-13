@@ -99,7 +99,15 @@
 			<version>2.13.2</version>
 		</dependency>
 
-<!--		test with junit 5, for latest springboot, junit 5 dependencies are not needed, otherwise it will cause tests not found issue   -->
+<!--		databse-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.12</version>
+		</dependency>
+
+
+		<!--		test with junit 5, for latest springboot, junit 5 dependencies are not needed, otherwise it will cause tests not found issue   -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

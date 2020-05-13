@@ -21,4 +21,4 @@ databaseChangeLog:
               - column:
                   name: zip_code
                   type: VARCHAR(255)
-            tableName: user
+            tableName: user_table
