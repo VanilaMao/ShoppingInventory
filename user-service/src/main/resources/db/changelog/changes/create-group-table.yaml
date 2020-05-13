@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2020-05-10-add-group-table
+      author: zmh
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: groupPK
+                  name: group_id
+                  type: UUID
+              - column:
+                  name: dsc
+                  type: VARCHAR(255)
+              - column:
+                  name: CAPACITY
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: OWNER_ID
+                  type: UUID
+            tableName: GROUP_TABLE
+        - addForeignKeyConstraint:
+            baseColumnNames: OWNER_ID
+            baseTableName: GROUP_TABLE
+            constraintName: FKma76mpfyem2vf5x7hlt8fgyxu
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: user_id
+            referencedTableName: user_table
+            validate: true
+

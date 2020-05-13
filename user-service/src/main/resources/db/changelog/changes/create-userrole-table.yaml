@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-10-202-add-user-role-table
+      author: zmh
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: UUID
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+            tableName: user_role
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_role
+            constraintName: FK2oqpqfi5ut3xylw61wqhl5ggo
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: user_id
+            referencedTableName: user_table
+            validate: true

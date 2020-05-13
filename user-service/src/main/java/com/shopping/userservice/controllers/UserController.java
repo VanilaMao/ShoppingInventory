@@ -1,6 +1,8 @@
 package com.shopping.userservice.controllers;
 import com.shopping.userservice.domains.AuthenticationUser;
 import com.shopping.userservice.entities.User;
+import com.shopping.userservice.enums.ActiveStatus;
+import com.shopping.userservice.enums.Role;
 import com.shopping.userservice.requestes.UserRequest;
 import com.shopping.userservice.respositories.UserRepository;
 import com.shopping.userservice.services.ProducerService;
@@ -13,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController()
@@ -27,15 +29,28 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/user/create")
-    public String test(Authentication auth, @RequestBody UserRequest userRequest){
+    public ResponseEntity<String> test(Authentication auth, @RequestBody UserRequest userRequest){
+
+        User existingUser = userRepository.findByName(userRequest.getUsername());
+        if(existingUser!=null){
+            return new ResponseEntity("User already exist",HttpStatus.BAD_REQUEST);
+        }
+
         UUID userId = UUID.randomUUID();
         service.sendMessage(AuthenticationUser.builder()
                 .name(userRequest.getUsername())
                 .password(userRequest.getPassword())
                 .id(userId).build()
         );
-        userRepository.save(User.builder().id(userId).zipcode("48197").build());
-        return "success";
+
+        User user = User.builder()
+                .id(userId)
+                .name(userRequest.getUsername())
+                .status(ActiveStatus.Pending)
+                .roles(new HashSet<>(Arrays.asList(Role.Guest)))
+                .zipcode("48197").build();
+        userRepository.save(user);
+        return ResponseEntity.ok("success");
     }
 
     @GetMapping("/user-info")

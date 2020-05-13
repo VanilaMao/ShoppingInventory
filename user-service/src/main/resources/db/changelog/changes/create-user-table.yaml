@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-user-table-05-10-2020
+      author: zmh
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: userPK
+                  name: user_id
+                  type: UUID
+              - column:
+                  name: user_name
+                  type: VARCHAR(255)
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: zip_code
+                  type: VARCHAR(255)
+            tableName: user_table
