@@ -1,0 +1,18 @@
+.dialog-root {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dialog-title{
+    text-align: center;
+}
+
+.close-button{
+    float: right;
+    margin-left: -50%;
+    margin-top: auto;
+}

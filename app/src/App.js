@@ -9,6 +9,8 @@ import Login from './auth/login'
 import {Route} from 'react-router-dom'
 import Profile from './components/profile'
 import AppLayout from './components/layout'
+import userReducer from './redux/reducers/user-reducer'
+import userSaga from './redux/sagas/user-saga'
 
 const App = ()=>(
   <Admin
@@ -17,6 +19,8 @@ const App = ()=>(
        dashboard={Dashboard}
        loginPage={Login}
        appLayout = {AppLayout}
+       customReducers={{ user: userReducer}}
+       customSagas={[userSaga]}
        customRoutes={[
           <Route 
             key="profile"
