@@ -21,6 +21,7 @@ V0.1(completed):  basic skeltons of front end and backend
    - kafka comsumer in Author service to receive password and user and kafka producer in user service to publish user and password
  
 V0.2(in the road): depends on free pensonal time:
+- Bug fixes and code refactoring fron V0.1 
 - Frontend: nav bar for groups, offers, inventories, payments.
 - Backend: offer-service ,inventory-service, payment-service
 - Devops: may move cloud from digital ocean to AWS/Azure (depends on buget)
