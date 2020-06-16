@@ -1,6 +1,9 @@
 ## Goal
 A porject for Amazon/Ebay/Walmart seller to maintain inventories and for suppliers to supply goods, request payment and receive offer from sellers
 
+## Terms (nick names):
+Doctor = Seller, Nurse = suppliers, seller could be both Doctor and Nurse.
+
 ## Tech Stacks
 - Frontend: React 16, Redux, React-Redux, Redux-Saga, React-Admin, Axios, Material-UI
 - Backend: spring boot 2.2.6, Liquibase, PostgreSQL, Oauth2.0, Spring security, Kafka 
@@ -18,7 +21,7 @@ V0.1(completed):  basic skeltons of front end and backend
    - kafka comsumer in Author service to receive password and user and kafka producer in user service to publish user and password
  
 V0.2(in the road): depends on free pensonal time:
-- Frontend: nav bar for groups, offers, inventories, payments on front-end.
+- Frontend: nav bar for groups, offers, inventories, payments.
 - Backend: offer-service ,inventory-service, payment-service
 - Devops: may move cloud from digital ocean to AWS/Azure (depends on buget)
 
