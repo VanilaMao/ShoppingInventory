@@ -8,7 +8,7 @@ A porject for Amazon/Ebay/Walmart seller to maintain inventories and for supplie
 - Cloud: Digital Ocean (2 gb memory and 25G data, limited buget for development stage)
 
 ### Road map
-V0.1:  basic skeltons of front end and backend
+V0.1(completed):  basic skeltons of front end and backend
 - Frontend features:
   - Login in page, register new user, configure user.
   - creating new group for seller, applying to a new seller, applying joining a seller group
@@ -17,12 +17,15 @@ V0.1:  basic skeltons of front end and backend
    - implemented user, group, seller, usergroup tables with Liquibase 
    - kafka comsumer in Author service to receive password and user and kafka producer in user service to publish user and password
  
-
+V0.2(in the road): depends on free pensonal time:
+- Frontend: nav bar for groups, offers, inventories, payments on front-end.
+- Backend: offer-service ,inventory-service, payment-service
+- Devops: may move cloud from digital ocean to AWS/Azure (depends on buget)
 
 # ShoppingInventory
 
 
-http://161.35.52.95:3000/ just a default react app <br/>
+app: http://161.35.52.95:3000/  <br/>
 auth-service: http://161.35.52.95:8081<br/>
 user-service: http://161.35.52.95:8083<br/>
 
